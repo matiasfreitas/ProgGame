@@ -7,6 +7,17 @@
 
 
 class Words {
+    public:
+        int tamanho;
+        int coordenadas[2];
+        char orientacao;
+        words(int aTamanho, int aCoordenadas[2], char aOrientacao){
+            tamanho = aTamanho;
+            coordenadas = aCoordenadas;
+            orientatacao = aOrientacao;
+        }
+
+        int preenchimento[tamanho];
 
 };
 
