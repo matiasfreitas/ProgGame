@@ -7,6 +7,7 @@
 
 
 class Words {
+    //delete
     public:
         int tamanho;
         int coordenadas[2];
