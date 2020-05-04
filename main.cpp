@@ -1,15 +1,23 @@
-#define _GLIBCXX_USE_CXX11_ABI 0
 #include <iostream>
-#include "BoardBuilder/Words.h"
-#include "BoardBuilder/Board.h"
+#include "BoardBuilder/mainBuilder.cpp"
+#include "ScrabbleJunior/mainGaming.cpp"
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    Words firstWord;
-    firstWord.setWord("Matias", 15, 20, true);
-    Board board;
-    board.setBoard(20);
-    board.print();
-
-
+    int choice;
+    while(true){
+        std::cout << "1 para construir, 0 para jogar" << std::endl;
+        std::cin >> choice;
+        std::cin.ignore();
+        if(choice == 1){
+            construction();
+            break;
+        }
+        else if(choice == 0){
+            gaming();
+            break;
+        }
+        else{
+            std::cout << "Nao consegui entender" << std::endl;
+        }
+    }
     return 0;
 }
