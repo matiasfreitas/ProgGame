@@ -1,13 +1,12 @@
-#include <iostream>
 #include "Board.h"
 
 
-int construction(){
+int mainBuilder(){
     Board board;
     board.setBoard();
     board.print();
 
-
+    return 0;
 }
 
 

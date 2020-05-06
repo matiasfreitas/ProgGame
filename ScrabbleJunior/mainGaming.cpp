@@ -1,7 +1,3 @@
-int gaming(){
-
-
-
-
-
+int mainGame(){
+    return 0;
 }

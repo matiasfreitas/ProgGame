@@ -1,0 +1,8 @@
+//
+// Created by matiasfg on 06/05/20.
+//
+
+#ifndef MATIASCAMELOSCRABBLE_MAINGAMING_H
+#define MATIASCAMELOSCRABBLE_MAINGAMING_H
+int mainGame();
+#endif //MATIASCAMELOSCRABBLE_MAINGAMING_H

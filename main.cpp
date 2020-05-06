@@ -1,6 +1,6 @@
 #include <iostream>
-#include "BoardBuilder/mainBuilder.cpp"
-#include "ScrabbleJunior/mainGaming.cpp"
+#include "BoardBuilder/mainBuilder.h"
+#include "ScrabbleJunior/mainGaming.h"
 int main() {
     int choice;
     while(true){
@@ -8,11 +8,11 @@ int main() {
         std::cin >> choice;
         std::cin.ignore();
         if(choice == 1){
-            construction();
+            mainBuilder();
             break;
         }
         else if(choice == 0){
-            gaming();
+            mainGame();
             break;
         }
         else{

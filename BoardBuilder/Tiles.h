@@ -8,24 +8,11 @@
 
 class Tiles {
     public:
-        void setTile(char charT  = ' ', bool validT = false, bool emptiness = true){
-            valid = validT;
-            name = charT;
-            empty = emptiness;
-        }
-        void nowValid(){
-            valid = true;
-        }
-        void nowCover(){
-            valid = false;
-            empty = false;
-        }
-        bool getValid(){
-            return valid;
-        }
-        char getChar(){
-            return name;
-        }
+        void setTile(char charT  = ' ', bool validT = false, bool emptiness = true);
+        void nowValid();
+        void nowCover();
+        bool getValid();
+        char getChar();
 
     private:
         char name;
