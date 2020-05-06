@@ -23,6 +23,10 @@ bool Tiles::getValid() {
     return valid;
 }
 
+bool Tiles::getEmpty() {
+    return empty;
+}
+
 char Tiles::getChar() {
     return name;
 }

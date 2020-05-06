@@ -25,18 +25,32 @@ void Board::setBoard() {
 }
 
 void Board::print() {
+    setcolor(WHITE, BLACK_B);
+    std::cout << " ";
+    for (int i = 0; i < sizeCol; i++){
+        std::cout << " ";
+        std::cout << char(i + 97);
+    }
+    std::cout << "\n";
     for (int i = 0; i < sizeRow; i++) {
-        setcolor(WHITE_B, BLACK);
+        setcolor(WHITE, BLACK_B);
+        std::cout << char(i + 65);
+        std::cout << " ";
+        setcolor(BLACK, WHITE_B);
         for (int j = 0; j < sizeCol; j++) {
+            if (!boardTiles[i][j].getempty()){
+                setcolor(RED, WHITE_B);
+            }
             std::cout << boardTiles[i][j].getChar();
-            std::cout << "|";
-        }
-        std::cout << "\n";
-        for (int j = 0; j < sizeCol; j++) {
-            std::cout << "__";
+            setcolor(BLACK, WHITE_B);
+            if (j != sizeCol - 1){
+                std::cout << " ";
+            }
         }
         std::cout << "\n";
     }
+
+    setcolor(WHITE, BLACK_B);
 }
 
 void Board::putWord() {

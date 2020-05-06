@@ -13,6 +13,7 @@ class Tiles {
         void nowCover();
         bool getValid();
         char getChar();
+        bool getEmpty();
 
     private:
         char name;
