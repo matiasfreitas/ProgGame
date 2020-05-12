@@ -20,7 +20,7 @@ void setcolor(std::string color, std::string background_color) { std::cout << co
 
 
 #endif
-#ifdef (_WIN32) || defined(WIN32)
+#ifdef defined(_WIN32) || defined(WIN32)
 void setcolor(unsigned int color, unsigned int background_color) {
     std::HANDLE hCon = GetStdHandle(std::STD_OUTPUT_HANDLE);
     if (background_color == BLACK){

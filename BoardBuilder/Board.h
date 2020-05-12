@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <iostream>
 #include "Tiles.h"
+#include <fstream>
 
 class Board {
 
@@ -17,6 +18,7 @@ class Board {
 
 
     private:
+        std::string nomeArq;
         int sizeCol;
         int sizeRow;
         Tiles **boardTiles;

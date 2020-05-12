@@ -1,12 +1,22 @@
 #include "Board.h"
+#include <iostream>
 
-
-int mainBuilder(){
+void mainBuilder(){
     Board board;
     board.setBoard();
-    board.print();
+    int Answer = 1;
 
-    return 0;
+    while(true){
+        board.print();
+        std::cout << "Você quer por alguma palavra? 1 para sim" << std::endl;
+        std::cin >> Answer;
+        std::cout << Answer;
+        if(Answer != 1){ break;}
+        std::cin.ignore();
+        board.putWord();
+    }
+
+
 }
 
 

@@ -1,3 +1,3 @@
-int mainGame(){
-    return 0;
+void mainGame(){
+
 }
