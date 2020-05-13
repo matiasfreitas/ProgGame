@@ -9,15 +9,17 @@
 
 class Words{
 public:
-    void setWord(std::string str, int xInitial, int yInitial, bool orient);
+    void setWord(std::string str, int xInitial, int yInitial, char orienta);
     int getX1();
     int getY1();
+    bool ishorizontal();
+    void writeWord(std::string nomeArquivo);
+    std::string getName();
 
 private:
-    int size;
     int cordInitial[2];
     std::string name;
-    int nCoverd = 0;
+    char orient;
 };
 
 

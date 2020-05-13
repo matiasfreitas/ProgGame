@@ -9,22 +9,22 @@
         #include <string>
         #include <sstream>
         #include <unistd.h>
-        #define BLACK "\033[0;30m"
+        #define BLACK "\u001b[30m"
         #define RED "\033[0;31m"
         #define GREEN "\033[0;32m"
         #define BLUE "\033[0;34m"
         #define MAGENTA "\033[0;35m"
         #define CYAN "\033[0;36m"
         #define YELLOW "\033[1;33m"
-        #define WHITE "\033[1;37m"
-        #define BLACK_B "\033[0;40m"
+        #define WHITE "\u001b[37m"
+        #define BLACK_B "\u001b[0m"
         #define RED_B "\033[0;41m"
         #define GREEN_B "\033[0;42m"
         #define YELLOW_B "\033[0;43m"
         #define BLUE_B "\033[0;44m"
         #define MAGENTA_B "\033[0;45m"
         #define CYAN_B "\033[0;46m"
-        #define WHITE_B "\033[1;47m"
+        #define WHITE_B "\u001b[47m"
     #endif
 
     #ifdef defined(_WIN32) || defined(WIN32)
