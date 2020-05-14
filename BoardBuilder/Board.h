@@ -11,6 +11,7 @@
 #include "Words.h"
 #define maxSizeBoard 20
 #define minSizeBoard 2
+#define minWord 3
 
 class Board {
 

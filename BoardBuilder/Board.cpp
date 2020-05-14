@@ -7,22 +7,27 @@
 #include <string>
 #include <algorithm>
 #include "Words.h"
-
+std::string horizontalHouses = " abcdefghijklmnopqrst";
+std::string verticalHouses = " ABCDEFGHIJKLMNOPQRST";
 
 void Board::setBoard() {
     std::cout << "Nome do arquivo a criar?" << std::endl;
     std::cin >> nomeArq;
     std::cin.ignore();
-    while(sizeCol>maxSizeBoard || sizeCol<minSizeBoard){
+    while(!(maxSizeBoard > sizeCol && sizeCol > minSizeBoard)){
         std::cout << "Qual o numero de colunas do tabuleiro?" << std::endl;
         std::cin >> sizeCol;
         std::cin.ignore();
+
     }
-    while(sizeRow>maxSizeBoard || sizeRow<minSizeBoard){
+    sizeCol =  sizeCol + 2;
+    while(!(maxSizeBoard > sizeRow && sizeRow > minSizeBoard)){
         std::cout << "Qual o numero de linhas do tabuleiro?" << std::endl;
         std::cin >> sizeRow;
         std::cin.ignore();
+
     }
+    sizeRow =  sizeRow + 2;
     boardTiles =  new Tiles*[sizeRow];
     for (int i=0; i<sizeRow; i++){
         boardTiles[i] = new Tiles[sizeCol];
@@ -32,8 +37,8 @@ void Board::setBoard() {
             boardTiles[i][j].setTile();
         }
     }
-    std::fstream file;
-    file.open (nomeArq);
+    std::ofstream file;
+    file.open(nomeArq);
     file << sizeRow << sizeCol <<  "\n";
     file.close();
 }
@@ -41,17 +46,17 @@ void Board::setBoard() {
 void Board::print() {
     setcolor(WHITE, BLACK_B);
     std::cout << " ";
-    for (int i = 0; i < sizeCol; i++){
+    for (int i = 1; i < sizeCol-1; i++){
         std::cout << " ";
-        std::cout << char(i + 97);
+        std::cout << char(i + 96);
     }
     std::cout << "\n";
-    for (int i = 0; i < sizeRow; i++) {
+    for (int i = 1; i < sizeRow-1; i++) {
         setcolor(WHITE, BLACK_B);
         std::cout << " ";
-        std::cout << char(i + 65);
+        std::cout << char(i + 64);
         setcolor(BLACK, WHITE_B);
-        for (int j = 0; j < sizeCol; j++) {
+        for (int j = 1; j < sizeCol-1; j++) {
             if (boardTiles[i][j].getEmpty()){
                 setcolor(RED, WHITE_B);
             }
@@ -60,7 +65,7 @@ void Board::print() {
             }
             std::cout << boardTiles[i][j].getChar();
             setcolor(BLACK, WHITE_B);
-            if (j != sizeCol - 1){
+            if (j != sizeCol - 2){
                 std::cout << " ";
             }
         }
@@ -73,25 +78,29 @@ Words Board::createWord(){
     int xInitial;
     int yInitial;
     char orient;
-    std::string name = " ";
-    while(name.length()>sizeCol || name.length()>sizeRow){
+    char houseChar;
+    std::string name;
+    while((name.length() > sizeCol && name.length() > sizeRow) || name.length() < minWord){
         std::cout << "Qual palavra voce vai por?" << std::endl;
         std::cin >> name;
         std::cin.ignore();
+        std::transform(name.begin(), name.end(),name.begin(), ::toupper);
     }
     while(xInitial>sizeCol || yInitial>sizeRow){
         std::cout << "Em qual coluna voce vai por?" << std::endl;
-        std::cin >> xInitial;
+        std::cin >> houseChar;
+        xInitial = horizontalHouses.find(houseChar);
         std::cin.ignore();
         std::cout << "Em qual linha voce vai por?" << std::endl;
-        std::cin >> yInitial;
+        std::cin >> houseChar;
+        yInitial = verticalHouses.find(houseChar);
         std::cin.ignore();
     }
     while(orient != 'H' & orient != 'V'){
         std::cout << "H para por na horizontal, V para Vertical" << std::endl;
         std::cin >> orient;
-        std::toupper(orient);
         std::cin.ignore();
+        toupper(orient);
     }
     Words word;
     word.setWord(name, xInitial, yInitial, orient);
@@ -101,29 +110,24 @@ Words Board::createWord(){
 bool Board::validaWord(Words word) {
     bool validLoc = false;
     std::string name = word.getName();
-    if(word.ishorizontal()) {
-        for (int i = word.getX1(); i  <= sizeRow + word.getX1(); i++) {
-            if (boardTiles[i][word.getY1()].getChar() !=  name[i-sizeCol]  ||
-                boardTiles[i][word.getY1()].getChar() != ' '){
+    if(word.ishorizontal()){
+        for (int i =  0; i <= name.length() ; i++) {
+            if (boardTiles[word.getX1()][word.getY1() + i].getChar() != name[i] && boardTiles[word.getX1()][word.getY1() + i].getChar() != ' ') {
                 validLoc = false;
-
-            }else if(boardTiles[i][word.getY1() + 1].getChar() != ' ' ||
-                     boardTiles[i][word.getY1() - 1].getChar() != ' '){
-                    validLoc = false;
-            } else {
-                validLoc = true;
-            }
-        }
-    } else {
-        for (int i = word.getY1() + 1; i <= sizeRow + word.getY1() + 1  ; i++) {
-            if (boardTiles[word.getX1()][i].getChar() != name[i-sizeRow] ||
-                boardTiles[word.getX1()][i].getChar() != ' ') {
-                validLoc = false;
-            }else if(boardTiles[word.getX1()][i].getChar() != ' ' ||
-                     boardTiles[word.getX1()][i].getChar() != ' '){
+            }else if(boardTiles[word.getX1()][word.getY1() + i].getChar() != ' ' || boardTiles[word.getX1()][word.getY1() + i].getChar() != ' '){
                 validLoc = false;
             }else {
                 validLoc = true;
+            }
+        }
+    }else {
+        for (int i =  0; i <= name.length() ; i++) {
+            if (boardTiles[word.getX1() + i][word.getY1()].getChar() !=  name[i]  && boardTiles[word.getX1() + i][word.getY1()].getChar() != ' '){
+                validLoc = false;
+            }else if(boardTiles[word.getX1() + i][word.getY1()].getChar() != ' ' || boardTiles[word.getX1() + i][word.getY1()].getChar() != ' '){
+                validLoc = false;
+            } else {
+            validLoc = true;
             }
         }
     }
@@ -131,15 +135,15 @@ bool Board::validaWord(Words word) {
 }
 void Board::saveWord(Words word) {
     std::string name = word.getName();
-    if(word.ishorizontal()){
+    if (word.ishorizontal()) {
         boardTiles[word.getX1()][word.getY1()].setTile(name[0], true, true);
-        for (int i=word.getX1()+1; i<sizeRow + word.getX1(); i++){
-            boardTiles[i][word.getY1()].setTile(name[i-sizeRow], false, true);
+        for (int i = 0; i <= name.length(); i++) {
+            boardTiles[word.getX1()][word.getY1() + i].setTile(name[i], false, true);
         }
-    }else {
+    } else {
         boardTiles[word.getX1()][word.getY1()].setTile(name[0], true, true);
-        for (int i = word.getY1() + 1; i < sizeRow + word.getY1(); i++) {
-            boardTiles[word.getX1()][i].setTile(name[i-sizeRow], false, true);
+        for (int i = 0; i <= name.length(); i++) {
+            boardTiles[word.getX1() + i][word.getY1()].setTile(name[i], false, true);
         }
     }
 }

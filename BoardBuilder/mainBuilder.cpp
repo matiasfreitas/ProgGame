@@ -19,6 +19,8 @@ void mainBuilder(){
             validaWord = board.validaWord(word);
         }
         word.writeWord(board.getFilename());
+        board.saveWord(word);
+        delete &word;
     }
 
 

@@ -33,7 +33,8 @@ bool Words::ishorizontal() {
 }
 
 void Words::writeWord(std::string nomeArquivo){
-    std::fstream file(nomeArquivo, std::ios::app);
+
+    std::ofstream file(nomeArquivo, std::ios::app);
     file << char(cordInitial[0] + 97) << char(cordInitial[1] + 65) << " " << orient << " " << name << " " << "\n";
     file.close();
 }
