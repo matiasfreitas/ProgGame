@@ -5,7 +5,6 @@
 #include "Words.h"
 #include <string>
 #include <fstream>
-#include "globalDefB.h"
 
 void Words::setWord(std::string str, int xInitial, int yInitial,char orienta) {
     cordInitial[0] = xInitial;
@@ -25,15 +24,16 @@ std::string Words::getName() {
     return name;
 }
 bool Words::ishorizontal() {
-    if (orient == HORIZONTAL){
+    if (orient == 'H'){
         return true;
     }
-    if (orient == VERTICAL){
+    if (orient == 'V'){
         return false;
     }
 }
 
 void Words::writeWord(std::string nomeArquivo){
+
     std::ofstream file(nomeArquivo, std::ios::app);
     file << char(cordInitial[0] + 96) << char(cordInitial[1] + 64) << " " << orient << " " << name << " " << "\n";
     file.close();

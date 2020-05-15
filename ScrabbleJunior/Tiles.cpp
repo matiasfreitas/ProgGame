@@ -10,6 +10,15 @@ void Tiles::setTile(char charT, bool validT, bool emptiness) {
     empty = emptiness;
 }
 
+void Tiles::nowValid() {
+    valid = true;
+}
+
+void Tiles::nowCover() {
+    valid = false;
+    empty = false;
+}
+
 bool Tiles::getValid() {
     return valid;
 }

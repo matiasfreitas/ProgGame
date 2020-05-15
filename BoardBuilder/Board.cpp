@@ -10,18 +10,18 @@
 #include "globalDefB.h"
 
 void BoardB::setBoard() {
-    std::cout << "Nome do arquivo a criar?" << std::endl;
+    std::cout << FILENAMEMESSAGE << std::endl;
     std::cin >> nomeArq;
     std::cin.ignore();
     while(!(maxSizeBoard > sizeCol && sizeCol > minSizeBoard)){
-        std::cout << "Qual o numero de colunas do tabuleiro?" << std::endl;
+        std::cout << NCOLUNASMESSAGE << std::endl;
         std::cin >> sizeCol;
         std::cin.ignore();
 
     }
     sizeCol =  sizeCol + 2;
     while(!(maxSizeBoard > sizeRow && sizeRow > minSizeBoard)){
-        std::cout << "Qual o numero de linhas do tabuleiro?" << std::endl;
+        std::cout << NLINHASMESSAGE << std::endl;
         std::cin >> sizeRow;
         std::cin.ignore();
 
@@ -80,25 +80,25 @@ Words BoardB::createWord(){
     char houseChar = ' ';
     std::string name = "";
     while((name.length() > sizeCol && name.length() > sizeRow) || name.length() < minWord){
-        std::cout << "Qual palavra voce vai por?" << std::endl;
+        std::cout << PALAVRAMESSAGE << std::endl;
         std::cin >> name;
         std::cin.ignore();
         std::transform(name.begin(), name.end(),name.begin(), ::toupper);
     }
     while(xInitial>sizeCol || xInitial<1) {
-        std::cout << "Em qual coluna voce vai por?" << std::endl;
+        std::cout << CHOICECOLUNAMESSAGE << std::endl;
         std::cin >> houseChar;
         xInitial = horizontalHousesB.find(houseChar);
         std::cin.ignore();
     }
     while(yInitial>sizeCol || yInitial<1) {
-        std::cout << "Em qual linha voce vai por?" << std::endl;
+        std::cout << CHOICELINHAMESSAGE << std::endl;
         std::cin >> houseChar;
         yInitial = verticalHousesB.find(houseChar);
         std::cin.ignore();
     }
-    while(orient != 'H' & orient != 'V'){
-        std::cout << "H para por na horizontal, V para Vertical" << std::endl;
+    while(orient != HORIZONTAL & orient != VERTICAL){
+        std::cout << CHOICEORIENTMESSAGE << std::endl;
         std::cin >> orient;
         std::cin.ignore();
         toupper(orient);
@@ -117,21 +117,17 @@ bool BoardB::isValidaWord(Words word) {
         }
         for (int i = 0; i <= name.length(); i++) {
             if (boardTiles[word.getY1()][word.getX1()+ i].getChar() != name[i] && boardTiles[word.getY1()][word.getX1() + i].getChar() != ' ') {
-                std::cout << "1" << std::endl;
                 validLoc = false;
                 break;
             }else if((boardTiles[word.getY1() + 1][word.getX1() + i].getChar() != ' ' || boardTiles[word.getY1() - 1][word.getX1() + i].getChar() != ' ')){
                 if(boardTiles[word.getY1()][word.getX1()+ i].getChar() == name[i]){
-                    std::cout << "2.1" << std::endl;
                     validLoc = true;
                 }
                 else{
-                    std::cout << "2.2" << std::endl;
                     validLoc = false;
                     break;
                 }
             }else {
-                std::cout << "3" << std::endl;
                 validLoc = true;
             }
         }
@@ -141,21 +137,17 @@ bool BoardB::isValidaWord(Words word) {
         }
         for (int i =  0; i <= name.length(); i++) {
             if (boardTiles[word.getY1() + i][word.getX1()].getChar() !=  name[i]  && boardTiles[word.getY1() + i][word.getX1()].getChar() != ' '){
-                std::cout << "1" << std::endl;
                 validLoc = false;
                 break;
             }else if((boardTiles[word.getY1() + i] [word.getX1() + 1].getChar() != ' ' || boardTiles[word.getY1() + i][word.getX1() - 1].getChar() != ' ')){
                 if(boardTiles[word.getY1() + i][word.getX1()].getChar() ==  name[i]){
-                    std::cout << "2.1" << std::endl;
                     validLoc = true;
                 }
                 else{
-                    std::cout << "2.2" << std::endl;
                     validLoc = false;
                     break;
                 }
             } else {
-                std::cout << "3" << std::endl;
                 validLoc = true;
             }
         }

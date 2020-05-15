@@ -1,5 +1,6 @@
 #include "Board.h"
 #include <iostream>
+#include "globalDefB.h"
 
 void mainBuilder(){
     BoardB board;
@@ -10,10 +11,10 @@ void mainBuilder(){
     while(true){
         validaWord = false;
         board.print();
-        std::cout << "Voce quer por alguma palavra? 1 para sim" << std::endl;
+        std::cout << CHOICEPUTWORD << std::endl;
         std::cin >> Answer;
         if(Answer != 1){
-            std::cout << "Obrigado pelo tabuleiro" << std::endl;
+            std::cout << THANKSBOARD << std::endl;
             break;}
         std::cin.ignore();
         while(!validaWord){
@@ -23,8 +24,6 @@ void mainBuilder(){
         word.writeWord(board.getFilename());
         board.saveWord(word);
     }
-
-
 }
 
 
