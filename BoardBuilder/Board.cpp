@@ -7,10 +7,9 @@
 #include <string>
 #include <algorithm>
 #include "Words.h"
-std::string horizontalHouses = " abcdefghijklmnopqrst";
-std::string verticalHouses = " ABCDEFGHIJKLMNOPQRST";
+#include "globalDefB.h"
 
-void Board::setBoard() {
+void BoardB::setBoard() {
     std::cout << "Nome do arquivo a criar?" << std::endl;
     std::cin >> nomeArq;
     std::cin.ignore();
@@ -39,11 +38,11 @@ void Board::setBoard() {
     }
     std::ofstream file;
     file.open(nomeArq);
-    file << sizeRow << sizeCol <<  "\n";
+    file << sizeRow-2 << " X " << sizeCol-2 <<  "\n";
     file.close();
 }
 
-void Board::print() {
+void BoardB::print() {
     setcolor(WHITE, BLACK_B);
     std::cout << " ";
     for (int i = 1; i < sizeCol-1; i++){
@@ -74,26 +73,28 @@ void Board::print() {
 
     setcolor(WHITE, BLACK_B);
 }
-Words Board::createWord(){
-    int xInitial;
-    int yInitial;
-    char orient;
-    char houseChar;
-    std::string name;
+Words BoardB::createWord(){
+    int xInitial = 0;
+    int yInitial = 0;
+    char orient = ' ';
+    char houseChar = ' ';
+    std::string name = "";
     while((name.length() > sizeCol && name.length() > sizeRow) || name.length() < minWord){
         std::cout << "Qual palavra voce vai por?" << std::endl;
         std::cin >> name;
         std::cin.ignore();
         std::transform(name.begin(), name.end(),name.begin(), ::toupper);
     }
-    while(xInitial>sizeCol || yInitial>sizeRow){
+    while(xInitial>sizeCol || xInitial<1) {
         std::cout << "Em qual coluna voce vai por?" << std::endl;
         std::cin >> houseChar;
-        xInitial = horizontalHouses.find(houseChar);
+        xInitial = horizontalHousesB.find(houseChar);
         std::cin.ignore();
+    }
+    while(yInitial>sizeCol || yInitial<1) {
         std::cout << "Em qual linha voce vai por?" << std::endl;
         std::cin >> houseChar;
-        yInitial = verticalHouses.find(houseChar);
+        yInitial = verticalHousesB.find(houseChar);
         std::cin.ignore();
     }
     while(orient != 'H' & orient != 'V'){
@@ -107,47 +108,75 @@ Words Board::createWord(){
     return word;
 }
 
-bool Board::validaWord(Words word) {
+bool BoardB::isValidaWord(Words word) {
     bool validLoc = false;
-    std::string name = word.getName();
+    std::string name =  word.getName() ;
     if(word.ishorizontal()){
-        for (int i =  0; i <= name.length() ; i++) {
-            if (boardTiles[word.getX1()][word.getY1() + i].getChar() != name[i] && boardTiles[word.getX1()][word.getY1() + i].getChar() != ' ') {
+        if(boardTiles[word.getY1()][word.getX1()-1].getChar() != ' '){
+            return validLoc;
+        }
+        for (int i = 0; i <= name.length(); i++) {
+            if (boardTiles[word.getY1()][word.getX1()+ i].getChar() != name[i] && boardTiles[word.getY1()][word.getX1() + i].getChar() != ' ') {
+                std::cout << "1" << std::endl;
                 validLoc = false;
-            }else if(boardTiles[word.getX1()][word.getY1() + i].getChar() != ' ' || boardTiles[word.getX1()][word.getY1() + i].getChar() != ' '){
-                validLoc = false;
+                break;
+            }else if((boardTiles[word.getY1() + 1][word.getX1() + i].getChar() != ' ' || boardTiles[word.getY1() - 1][word.getX1() + i].getChar() != ' ')){
+                if(boardTiles[word.getY1()][word.getX1()+ i].getChar() == name[i]){
+                    std::cout << "2.1" << std::endl;
+                    validLoc = true;
+                }
+                else{
+                    std::cout << "2.2" << std::endl;
+                    validLoc = false;
+                    break;
+                }
             }else {
+                std::cout << "3" << std::endl;
                 validLoc = true;
             }
         }
     }else {
-        for (int i =  0; i <= name.length() ; i++) {
-            if (boardTiles[word.getX1() + i][word.getY1()].getChar() !=  name[i]  && boardTiles[word.getX1() + i][word.getY1()].getChar() != ' '){
+        if(boardTiles[word.getY1()-1][word.getX1()].getChar() != ' '){
+            return validLoc;
+        }
+        for (int i =  0; i <= name.length(); i++) {
+            if (boardTiles[word.getY1() + i][word.getX1()].getChar() !=  name[i]  && boardTiles[word.getY1() + i][word.getX1()].getChar() != ' '){
+                std::cout << "1" << std::endl;
                 validLoc = false;
-            }else if(boardTiles[word.getX1() + i][word.getY1()].getChar() != ' ' || boardTiles[word.getX1() + i][word.getY1()].getChar() != ' '){
-                validLoc = false;
+                break;
+            }else if((boardTiles[word.getY1() + i] [word.getX1() + 1].getChar() != ' ' || boardTiles[word.getY1() + i][word.getX1() - 1].getChar() != ' ')){
+                if(boardTiles[word.getY1() + i][word.getX1()].getChar() ==  name[i]){
+                    std::cout << "2.1" << std::endl;
+                    validLoc = true;
+                }
+                else{
+                    std::cout << "2.2" << std::endl;
+                    validLoc = false;
+                    break;
+                }
             } else {
-            validLoc = true;
+                std::cout << "3" << std::endl;
+                validLoc = true;
             }
         }
     }
     return validLoc;
 }
-void Board::saveWord(Words word) {
+void BoardB::saveWord(Words word) {
     std::string name = word.getName();
     if (word.ishorizontal()) {
-        boardTiles[word.getX1()][word.getY1()].setTile(name[0], true, true);
+        boardTiles[word.getY1()][word.getX1()].setTile(name[0], true, true);
         for (int i = 0; i <= name.length(); i++) {
-            boardTiles[word.getX1()][word.getY1() + i].setTile(name[i], false, true);
+            boardTiles[word.getY1()][word.getX1() + i].setTile(name[i], false, true);
         }
     } else {
-        boardTiles[word.getX1()][word.getY1()].setTile(name[0], true, true);
+        boardTiles[word.getY1()][word.getX1()].setTile(name[0], true, true);
         for (int i = 0; i <= name.length(); i++) {
-            boardTiles[word.getX1() + i][word.getY1()].setTile(name[i], false, true);
+            boardTiles[word.getY1() + i][word.getX1()].setTile(name[i], false, true);
         }
     }
 }
 
-std::string Board::getFilename(){
+std::string BoardB::getFilename(){
     return nomeArq;
 }

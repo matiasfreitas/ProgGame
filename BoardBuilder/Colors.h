@@ -27,7 +27,7 @@
         #define WHITE_B "\u001b[47m"
     #endif
 
-    #ifdef defined(_WIN32) || defined(WIN32)
+    #ifdef _WIN32
         #include <iostream>
         #include <ctime>
         #include <cstdlib>
@@ -56,7 +56,7 @@
         void setcolor(std::string color, std::string background_color);
 
     #endif
-    #ifdef defined(_WIN32) || defined(WIN32)
+    #ifdef _WIN32
         void clrscr();
         void gotoxy(int x, int y);
         void setcolor(unsigned int color, unsigned int background_color);

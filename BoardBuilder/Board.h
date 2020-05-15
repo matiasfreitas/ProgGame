@@ -13,14 +13,16 @@
 #define minSizeBoard 2
 #define minWord 3
 
-class Board {
+
+
+class BoardB {
 
     public:
         void setBoard();
         void print();
         void putWord();
         Words createWord();
-        bool validaWord(Words word);
+        bool isValidaWord(Words word);
         void saveWord(Words word);
         std::string getFilename();
 

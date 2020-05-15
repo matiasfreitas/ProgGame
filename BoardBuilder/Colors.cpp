@@ -20,9 +20,9 @@ void setcolor(std::string color, std::string background_color) { std::cout << co
 
 
 #endif
-#ifdef defined(_WIN32) || defined(WIN32)
+#ifdef _WIN32
 void setcolor(unsigned int color, unsigned int background_color) {
-    std::HANDLE hCon = GetStdHandle(std::STD_OUTPUT_HANDLE);
+    HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
     if (background_color == BLACK){
         SetConsoleTextAttribute(hCon, color);
     }
@@ -32,21 +32,21 @@ void setcolor(unsigned int color, unsigned int background_color) {
 }
 
 void gotoxy(int x, int y) {
-    std::COORD coord;
+    COORD coord;
     coord.X = x;
     coord.Y = y;
-    SetConsoleCursorPosition(GetStdHandle(std::STD_OUTPUT_HANDLE), coord);
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
 void clrscr() {
-    std::COORD coordScreen = {0, 0};
-    std::DWORD cCharsWritten;
-    std::DWORD dwConSize;
-    std::HANDLE hCon = GetStdHandle(std::STD_OUTPUT_HANDLE);
-    std::CONSOLE_SCREEN_BUFFER_INFO csbi;
+    COORD coordScreen = {0, 0};
+    DWORD cCharsWritten;
+    DWORD dwConSize;
+    HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(hCon, &csbi);
     dwConSize = csbi.dwSize.X * csbi.dwSize.Y;
-    FillConsoleOutputCharacter(hCon, std::TEXT(' '), dwConSize, coordScreen, &cCharsWritten);
+    FillConsoleOutputCharacter(hCon, TEXT(' '), dwConSize, coordScreen, &cCharsWritten);
     GetConsoleScreenBufferInfo(hCon, &csbi);
     FillConsoleOutputAttribute(hCon, csbi.wAttributes, dwConSize, coordScreen, &cCharsWritten);
     SetConsoleCursorPosition(hCon, coordScreen);
