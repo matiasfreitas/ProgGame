@@ -1,5 +1,5 @@
 //
-// Created by matiasfg on 05/05/20.
+// Funções dadas pelo professor, arrumadas para windows e linux.
 //
 
 #include "Colors.h"
