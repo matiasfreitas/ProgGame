@@ -9,6 +9,68 @@
 #include "Words.h"
 #include "globalDefB.h"
 
+//para arrumar:
+#include <iostream>
+#include <string>
+#include <vector>
+#include <sys/types.h>
+#include <dirent.h>
+#include <algorithm>
+#include <iterator>
+#include <fstream>
+
+//só para não repetir muita vez a mesma coisa
+typedef std::vector<std::string> string_vec;
+
+//Aqui você devolve o dicionario com todas as palavras no ficheiro words.txt
+string_vec Make_dicionario_vector(){
+    string_vec my_arr;
+
+    std::ifstream dict_file("words.txt");
+    std::string line;
+
+    while(std::getline(dict_file, line)){
+        std::string new_line;
+        new_line = line + "\n";
+        my_arr.push_back(new_line);
+    }
+
+    return my_arr;
+}
+
+//tava a pensar em binary search para detetar se uma string estava no vector
+
+//aqui você põe todos os ficheiros duma diretoria num vetor
+string_vec read_directory(const std::string& dir_name){
+
+    string_vec vec;
+
+    DIR* dirp = opendir(dir_name.c_str());
+    struct dirent * dp;
+    while ((dp = readdir(dirp)) != NULL) {
+        vec.push_back(dp->d_name);
+    }
+    closedir(dirp);
+
+    return vec
+}
+//este pedaço de codigo escreve todos os ficheiros .txt no ecrã
+/*
+    string_vec v;
+    std::string directory = ".";
+
+    read_directory(directory, v);
+
+    for (int i = 0; i < v.size(); i++){
+    	std::string aux = v[i];
+    	if (aux.find(".txt") != std::string::npos){
+    		std::cout << v[i] << std::endl;
+		}
+	}
+	*/
+
+//não mexi mais
+
 void BoardB::setBoard() {
     std::cout << FILENAMEMESSAGE << std::endl;
     std::cin >> nomeArq;
@@ -111,6 +173,9 @@ Words BoardB::createWord(){
 bool BoardB::isValidaWord(Words word) {
     bool validLoc = false;
     std::string name =  word.getName() ;
+
+
+
     if(word.ishorizontal()){
         if(boardTiles[word.getY1()][word.getX1()-1].getChar() != ' '){
             return validLoc;
