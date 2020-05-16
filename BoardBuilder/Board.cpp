@@ -9,9 +9,10 @@
 #include "Words.h"
 #define VERTICAL 'V'
 #define HORIZONTAL 'H'
-
+#include "Dictionary.h"
 
 void BoardB::setBoard() { // Cria o tabuleiro e grava a primeira linha, com as caractericas dele, num ficheiro
+    listWords.setDictVector();
     std::cout << FILENAMEMESSAGE << std::endl;
     std::cin >> nomeArq;
     std::cin.ignore();
@@ -82,7 +83,8 @@ Words BoardB::createWord(){ // Cria a word e verifica se os paramentros são pos
     char orient = ' ';
     char houseChar = ' ';
     std::string name = "";
-    while((name.length() > sizeCol && name.length() > sizeRow) || name.length() < minWord){ //Se a palavra tem um tamanho correto
+    bool wordisvalid = false;
+    while((name.length() > sizeCol && name.length() > sizeRow ) || name.length() < minWord || !listWords.isInDict(name) ){ //Se a palavra tem um tamanho correto
         std::cout << PALAVRAMESSAGE << std::endl;
         std::cin >> name;
         std::cin.ignore();
@@ -124,7 +126,7 @@ bool BoardB::isValidaWord(Words word) {
                 validLoc = false;
                 break;
             }else if((boardTiles[word.getY1() + 1][word.getX1() + i].getChar() != ' '
-                    || boardTiles[word.getY1() - 1][word.getX1() + i].getChar() != ' ')){ // verifica se as peças paralelas a ela tão vazias
+                      || boardTiles[word.getY1() - 1][word.getX1() + i].getChar() != ' ')){ // verifica se as peças paralelas a ela tão vazias
                 if(boardTiles[word.getY1()][word.getX1()+ i].getChar() == name[i]){// se tiver vazio,  verifica se é um cruzamento.
                     validLoc = true;
                 }
@@ -142,7 +144,7 @@ bool BoardB::isValidaWord(Words word) {
         }
         for (int i =  0; i <= name.length(); i++) { //verifica se as posições intermediaras da palavra são validas
             if (boardTiles[word.getY1() + i][word.getX1()].getChar() !=  name[i]
-               && boardTiles[word.getY1() + i][word.getX1()].getChar() != ' '){ // verifica se o espaço não é vazio ou igual a da peça
+                && boardTiles[word.getY1() + i][word.getX1()].getChar() != ' '){ // verifica se o espaço não é vazio ou igual a da peça
                 validLoc = false;
                 break;
             }else if((boardTiles[word.getY1() + i] [word.getX1() + 1].getChar() != ' '
@@ -176,6 +178,6 @@ void BoardB::saveWord(Words word) { // salva a palavra no board
     }
 }
 
-std::string BoardB::getFilename(){
+std::string BoardB::getFilename() {
     return nomeArq;
 }

@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <iostream>
 #include "Tiles.h"
+#include "Dictionary.h"
 #include <fstream>
 #include "Words.h"
 #define maxSizeBoard 20
@@ -40,6 +41,7 @@ class BoardB {
         int sizeCol;
         int sizeRow;
         Tiles **boardTiles;
+        Dictionary listWords;
 };
 
 

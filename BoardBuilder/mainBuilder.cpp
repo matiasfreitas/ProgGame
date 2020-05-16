@@ -1,4 +1,5 @@
 #include "Board.h"
+#include "Dictionary.h"
 #include <iostream>
 #define CHOICEPUTWORD "Voce quer por alguma palavra? 1 para sim"
 #define THANKSBOARD "Obrigado pelo tabuleiro"
