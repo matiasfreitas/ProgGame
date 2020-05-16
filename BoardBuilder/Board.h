@@ -35,6 +35,7 @@ class BoardB {
         bool isValidaWord(Words word);
         void saveWord(Words word);
         std::string getFilename();
+        bool isChar(char Let);
 
     private:
         std::string nomeArq;

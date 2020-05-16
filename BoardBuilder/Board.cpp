@@ -103,7 +103,7 @@ Words BoardB::createWord(){ // Cria a word e verifica se os paramentros são pos
         yInitial = verticalHousesB.find(houseChar);
         std::cin.ignore();
     }
-    while(orient != HORIZONTAL & orient != VERTICAL){ //Se a palavra tem uma orientação valida
+    while(orient != HORIZONTAL && orient != VERTICAL){ //Se a palavra tem uma orientação valida
         std::cout << CHOICEORIENTMESSAGE << std::endl;
         std::cin >> orient;
         std::cin.ignore();
@@ -118,17 +118,19 @@ bool BoardB::isValidaWord(Words word) {
     bool validLoc = false;
     std::string name =  word.getName();
     if(word.ishorizontal()){ //Se for horizontal, roda assim
-        if(boardTiles[word.getY1()][word.getX1()-1].getChar() != ' '){ // Verifica se tem alguma letras atrás da nova palavra. Se tiver, localização invalida
+        if(isChar(boardTiles[word.getY1()][word.getX1()-1].getChar())){ // Verifica se tem alguma letras atrás da nova palavra. Se tiver, localização invalida
             return validLoc;
         }
-        for (int i = 0; i <= name.length(); i++) {  //verifica se as posições intermediaras da palavra são validas
+        for (int i = 0; i < name.length(); i++) {  //verifica se as posições intermediaras da palavra são validas
             if (boardTiles[word.getY1()][word.getX1()+ i].getChar() != name[i]
-                && boardTiles[word.getY1()][word.getX1() + i].getChar() != ' ') { // verifica se o espaço não é vazio ou igual a da peça
+                && isChar(boardTiles[word.getY1()][word.getX1() + i].getChar())) { // verifica se o espaço não é vazio ou igual a da peça
                 validLoc = false;
                 break;
-            }else if((boardTiles[word.getY1() + 1][word.getX1() + i].getChar() != ' '
-                      || boardTiles[word.getY1() - 1][word.getX1() + i].getChar() != ' ')){ // verifica se as peças paralelas a ela tão vazias
+            }else if((isChar(boardTiles[word.getY1() + 1][word.getX1() + i].getChar())
+                      || isChar(boardTiles[word.getY1() - 1][word.getX1() + i].getChar()))){ // verifica se as peças paralelas a ela tão vazias
                 if(boardTiles[word.getY1()][word.getX1()+ i].getChar() == name[i]){// se tiver vazio,  verifica se é um cruzamento.
+                    validLoc = true;
+                }else if(!isChar(boardTiles[word.getY1()+1][word.getX1()+ i -1].getChar())){
                     validLoc = true;
                 }
                 else{ // se não for um cruzamento, retorna false
@@ -139,23 +141,24 @@ bool BoardB::isValidaWord(Words word) {
                 validLoc = true;
             }
         }
-    }else { //Se for vertical, roda assim
-        if(boardTiles[word.getY1()-1][word.getX1()].getChar() != ' '){ // Verifica se tem alguma letras atrás da nova palavra. Se tiver, localização invalida
+    }else {
+        if(isChar(boardTiles[word.getY1()-1][word.getX1()].getChar())){ // Verifica se tem alguma letras atrás da nova palavra. Se tiver, localização invalida
             return validLoc;
-        }
-        for (int i =  0; i <= name.length(); i++) { //verifica se as posições intermediaras da palavra são validas
+        }//Se for vertical, roda assim
+        for (int i =  0; i < name.length(); i++) { //verifica se as posições intermediaras da palavra são validas
             if (boardTiles[word.getY1() + i][word.getX1()].getChar() !=  name[i]
-                && boardTiles[word.getY1() + i][word.getX1()].getChar() != ' '){ // verifica se o espaço não é vazio ou igual a da peça
+                && isChar(boardTiles[word.getY1() + i][word.getX1()].getChar())){ // verifica se o espaço não é vazio ou igual a da peça
                 validLoc = false;
                 break;
-            }else if((boardTiles[word.getY1() + i] [word.getX1() + 1].getChar() != ' '
-                      || boardTiles[word.getY1() + i][word.getX1() - 1].getChar() != ' ')){ // verifica se as peças paralelas a ela tão vazias
-                if(boardTiles[word.getY1() + i][word.getX1()].getChar() ==  name[i]){ // se tiver vazio,  verifica se é um cruzamento.
+            }else if(isChar(boardTiles[word.getY1() + i][word.getX1() + 1].getChar())
+                     || isChar(boardTiles[word.getY1() + i][word.getX1() - 1].getChar())){ // verifica se as peças paralelas a ela tão vazias
+                if(boardTiles[word.getY1() + i][word.getX1()].getChar() ==  name[i]){ // se não tiver vazio,  verifica se é um cruzamento.
+                    validLoc = true;
+                }else if(!isChar(boardTiles[word.getY1()+ i -1][word.getX1()+1].getChar())){
                     validLoc = true;
                 }
                 else{ // se não for um cruzamento, retorna false
-                    validLoc = false;
-                    break;
+                    validLoc = true;
                 }
             } else { // Só retorna true se todas forem true
                 validLoc = true;
@@ -182,4 +185,14 @@ void BoardB::saveWord(Words word) { // salva a palavra no board
 
 std::string BoardB::getFilename() {
     return nomeArq;
+}
+
+bool BoardB::isChar(char Let){
+    std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    if(alphabet.find(Let) == -1){
+        return false;
+    }
+    else{
+        return true;
+    }
 }

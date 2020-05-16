@@ -9,25 +9,55 @@
 #include "Words.h"
 #define VERTICAL 'V'
 #define HORIZONTAL 'H'
+#include <sys/types.h>
+#include <dirent.h>
+#include <fstream>
 
+void Board::setFilename(){
+    std::string directory = ".";
+    std::vector<std::string> listFiles;
+    std::vector<std::string> listTXT;
+    int index = 0;
+    DIR* dirp = opendir(directory.c_str());
+    struct dirent * dp;
+    while ((dp = readdir(dirp)) != NULL) {
+        listFiles.push_back(dp->d_name);
+    }
 
-void Board::setBoard() { // Cria o tabuleiro e grava a primeira linha, com as caractericas dele, num ficheiro
-    std::cout << FILENAMEMESSAGE << std::endl;
-    std::cin >> nomeArq;
-    std::cin.ignore();
-    while(!(maxSizeBoard >= sizeCol && sizeCol >= minSizeBoard)){ // Pegunta o tamanho do tabuleiro de um dos lados num loop até ser de um tamanho permitido
-        std::cout << NCOLUNASMESSAGE << std::endl;
-        std::cin >> sizeCol;
+    closedir(dirp);
+    for (int i = 0; i < listFiles.size(); i++){
+        if (listFiles[i].find(".txt") != std::string::npos){
+            listTXT.push_back(listFiles[i]);
+        }
+    }
+    for (int i = 0; i < listTXT.size(); i++){
+        std::cout << i+1 << ". " << listTXT[i] << std::endl;
+    }
+    while(index<1 || index >listTXT.size()+1){
+        std::cout << "Escolha um arquivo pelo numero" << std::endl;
+        std::cin >> index;
         std::cin.ignore();
     }
-    sizeCol =  sizeCol + 2; // Somado dois para criar uma borda de espaços vazios no tabuleiro para saber mais fácil se as palavras tão bem postas
-    while(!(maxSizeBoard >= sizeRow && sizeRow >= minSizeBoard)){
-        std::cout << NLINHASMESSAGE << std::endl;
-        std::cin >> sizeRow;
-        std::cin.ignore();
 
-    }
+    nomeArq = listTXT[index-1];
+}
+
+bool Board::setBoard() {
+    bool sucess = true;
+    std::string horizontalHousesB = " abcdefghijklmnopqrst";
+    std::string verticalHousesB = " ABCDEFGHIJKLMNOPQRST";
+    std::string name;
+    std::string line;
+    char cord[2];
+    char orient;
+    int xInitial;
+    int yInitial;
+    Words word;
+    std::ifstream inFile;
+    inFile.open(nomeArq);
+    inFile >> sizeRow >> name >> sizeCol;
     sizeRow =  sizeRow + 2;
+    sizeCol =  sizeCol + 2;
     boardTiles =  new Tiles*[sizeRow];  //Alocando dinamicamente espaço para o vetor
     for (int i=0; i<sizeRow; i++){
         boardTiles[i] = new Tiles[sizeCol];
@@ -37,10 +67,26 @@ void Board::setBoard() { // Cria o tabuleiro e grava a primeira linha, com as ca
             boardTiles[i][j].setTile();
         }
     }
-    std::ofstream file;
-    file.open(nomeArq);
-    file << sizeRow-2 << " X " << sizeCol-2 <<  "\n"; // salvando o arquivo
-    file.close();
+    while((inFile.peek()!=EOF) ){
+        inFile >> cord >> orient >> name;
+        xInitial = horizontalHousesB.find(cord[1]);
+        yInitial = verticalHousesB.find(cord[0]);
+        std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+        if((name.length() > sizeCol && name.length() > sizeRow) || name.length() < minWord){break;}
+        else if(xInitial>sizeCol || xInitial<1){break;}
+        else if((yInitial>sizeCol || yInitial<1)){break;}
+        else if(orient != HORIZONTAL && orient != VERTICAL){break;}
+        word.setWord(name, xInitial, yInitial, orient);
+        sucess = isValidaWord(word);
+        if(!sucess){
+            break;
+        }
+        saveWord(word);
+        nWords = nWords + 1;
+
+    }
+    inFile.close();
+    return sucess;
 }
 
 void Board::print() { // Função pra printar o board com cores se estiver vazio, preenchido e se é possível naquela rodada por uma peça.
@@ -74,58 +120,23 @@ void Board::print() { // Função pra printar o board com cores se estiver vazio
 
     setcolor(WHITE, BLACK_B);
 }
-Words Board::createWord(){ // Cria a word e verifica se os paramentros são possiveis
-    std::string horizontalHousesB = " abcdefghijklmnopqrst";
-    std::string verticalHousesB = " ABCDEFGHIJKLMNOPQRST";
-    int xInitial = 0;
-    int yInitial = 0;
-    char orient = ' ';
-    char houseChar = ' ';
-    std::string name = "";
-    while((name.length() > sizeCol && name.length() > sizeRow) || name.length() < minWord){ //Se a palavra tem um tamanho correto
-        std::cout << PALAVRAMESSAGE << std::endl;
-        std::cin >> name;
-        std::cin.ignore();
-        std::transform(name.begin(), name.end(),name.begin(), ::toupper);
-    }
-    while(xInitial>sizeCol || xInitial<1) { //Se a palavra tem uma coluna valida
-        std::cout << CHOICECOLUNAMESSAGE << std::endl;
-        std::cin >> houseChar;
-        xInitial = horizontalHousesB.find(houseChar);
-        std::cin.ignore();
-    }
-    while(yInitial>sizeCol || yInitial<1) { //Se a palavra tem uma linha valida
-        std::cout << CHOICELINHAMESSAGE << std::endl;
-        std::cin >> houseChar;
-        yInitial = verticalHousesB.find(houseChar);
-        std::cin.ignore();
-    }
-    while(orient != HORIZONTAL & orient != VERTICAL){ //Se a palavra tem uma orientação valida
-        std::cout << CHOICEORIENTMESSAGE << std::endl;
-        std::cin >> orient;
-        std::cin.ignore();
-        toupper(orient);
-    }
-    Words word;
-    word.setWord(name, xInitial, yInitial, orient); // escreve as informações capturadas
-    return word;
-}
-
 bool Board::isValidaWord(Words word) {
     bool validLoc = false;
     std::string name =  word.getName();
     if(word.ishorizontal()){ //Se for horizontal, roda assim
-        if(boardTiles[word.getY1()][word.getX1()-1].getChar() != ' '){ // Verifica se tem alguma letras atrás da nova palavra. Se tiver, localização invalida
+        if(isChar(boardTiles[word.getY1()][word.getX1()-1].getChar())){ // Verifica se tem alguma letras atrás da nova palavra. Se tiver, localização invalida
             return validLoc;
         }
-        for (int i = 0; i <= name.length(); i++) {  //verifica se as posições intermediaras da palavra são validas
+        for (int i = 0; i < name.length(); i++) {  //verifica se as posições intermediaras da palavra são validas
             if (boardTiles[word.getY1()][word.getX1()+ i].getChar() != name[i]
-                && boardTiles[word.getY1()][word.getX1() + i].getChar() != ' ') { // verifica se o espaço não é vazio ou igual a da peça
+                && isChar(boardTiles[word.getY1()][word.getX1() + i].getChar())) { // verifica se o espaço não é vazio ou igual a da peça
                 validLoc = false;
                 break;
-            }else if((boardTiles[word.getY1() + 1][word.getX1() + i].getChar() != ' '
-                      || boardTiles[word.getY1() - 1][word.getX1() + i].getChar() != ' ')){ // verifica se as peças paralelas a ela tão vazias
+            }else if((isChar(boardTiles[word.getY1() + 1][word.getX1() + i].getChar())
+                      || isChar(boardTiles[word.getY1() - 1][word.getX1() + i].getChar()))){ // verifica se as peças paralelas a ela tão vazias
                 if(boardTiles[word.getY1()][word.getX1()+ i].getChar() == name[i]){// se tiver vazio,  verifica se é um cruzamento.
+                    validLoc = true;
+                }else if(!isChar(boardTiles[word.getY1()+1][word.getX1()+ i -1].getChar())){
                     validLoc = true;
                 }
                 else{ // se não for um cruzamento, retorna false
@@ -136,23 +147,24 @@ bool Board::isValidaWord(Words word) {
                 validLoc = true;
             }
         }
-    }else { //Se for vertical, roda assim
-        if(boardTiles[word.getY1()-1][word.getX1()].getChar() != ' '){ // Verifica se tem alguma letras atrás da nova palavra. Se tiver, localização invalida
+    }else {
+        if(isChar(boardTiles[word.getY1()-1][word.getX1()].getChar())){ // Verifica se tem alguma letras atrás da nova palavra. Se tiver, localização invalida
             return validLoc;
-        }
-        for (int i =  0; i <= name.length(); i++) { //verifica se as posições intermediaras da palavra são validas
+        }//Se for vertical, roda assim
+        for (int i =  0; i < name.length(); i++) { //verifica se as posições intermediaras da palavra são validas
             if (boardTiles[word.getY1() + i][word.getX1()].getChar() !=  name[i]
-                && boardTiles[word.getY1() + i][word.getX1()].getChar() != ' '){ // verifica se o espaço não é vazio ou igual a da peça
+                && isChar(boardTiles[word.getY1() + i][word.getX1()].getChar())){ // verifica se o espaço não é vazio ou igual a da peça
                 validLoc = false;
                 break;
-            }else if((boardTiles[word.getY1() + i] [word.getX1() + 1].getChar() != ' '
-                      || boardTiles[word.getY1() + i][word.getX1() - 1].getChar() != ' ')){ // verifica se as peças paralelas a ela tão vazias
-                if(boardTiles[word.getY1() + i][word.getX1()].getChar() ==  name[i]){ // se tiver vazio,  verifica se é um cruzamento.
+            }else if(isChar(boardTiles[word.getY1() + i][word.getX1() + 1].getChar())
+                      || isChar(boardTiles[word.getY1() + i][word.getX1() - 1].getChar())){ // verifica se as peças paralelas a ela tão vazias
+                if(boardTiles[word.getY1() + i][word.getX1()].getChar() ==  name[i]){ // se não tiver vazio,  verifica se é um cruzamento.
+                    validLoc = true;
+                }else if(!isChar(boardTiles[word.getY1()+ i -1][word.getX1()+1].getChar())){
                     validLoc = true;
                 }
                 else{ // se não for um cruzamento, retorna false
-                    validLoc = false;
-                    break;
+                    validLoc = true;
                 }
             } else { // Só retorna true se todas forem true
                 validLoc = true;
@@ -161,21 +173,44 @@ bool Board::isValidaWord(Words word) {
     }
     return validLoc;
 }
+
 void Board::saveWord(Words word) { // salva a palavra no board
     std::string name = word.getName();
     if (word.ishorizontal()) {
         boardTiles[word.getY1()][word.getX1()].setTile(name[0], true, true); //seta a primeira de cada palavra como valida
-        for (int i = 0; i <= name.length(); i++) {
+        for (int i = 1; i <= name.length(); i++) {
             boardTiles[word.getY1()][word.getX1() + i].setTile(name[i], false, true); //seta o restante como invalida e vazia.
         }
     } else {
         boardTiles[word.getY1()][word.getX1()].setTile(name[0], true, true); //seta a primeira de cada palavra como valida
-        for (int i = 0; i <= name.length(); i++) {
+        for (int i = 1; i <= name.length(); i++) {
             boardTiles[word.getY1() + i][word.getX1()].setTile(name[i], false, true); //seta o restante como invalida e vazia.
         }
     }
 }
 
-std::string Board::getFilename() {
-    return nomeArq;
+int Board::getSizeCol() {
+    return sizeCol;
+}
+
+int Board::getSizeRow() {
+    return sizeRow;
+}
+
+Tiles Board::getTiles(int x, int y) {
+    return boardTiles[y][x];
+}
+
+int Board::getNwords() {
+    return nWords;
+}
+
+bool Board::isChar(char Let){
+    std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    if(alphabet.find(Let) == -1){
+        return false;
+    }
+    else{
+        return true;
+    }
 }

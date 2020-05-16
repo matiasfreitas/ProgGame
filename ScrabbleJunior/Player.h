@@ -4,10 +4,14 @@
 
 #ifndef PROGGAME_PLAYER_H
 #define PROGGAME_PLAYER_H
-
+#include <string>
 
 class Player {
-
+    private:
+        int points;
+        std::string hand;
+    public:
+        printHand();
 };
 
 

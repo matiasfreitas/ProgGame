@@ -11,7 +11,7 @@
 #include "Words.h"
 #define maxSizeBoard 20
 #define minSizeBoard 2
-#define minWord 3
+#define minWord 2
 
 #define FILENAMEMESSAGE "Nome do arquivo a criar?"
 #define NCOLUNASMESSAGE "Qual o numero de colunas do tabuleiro?"
@@ -27,18 +27,23 @@
 class Board {
 
 public:
-    void setBoard();
+    bool setBoard();
     void print();
-    void putWord();
     Words createWord();
     bool isValidaWord(Words word);
     void saveWord(Words word);
     std::string getFilename();
-
+    void setFilename();
+    int getSizeCol();
+    int getSizeRow();
+    Tiles getTiles(int x, int y);
+    int getNwords();
+    bool isChar(char Let);
 private:
     std::string nomeArq;
     int sizeCol;
     int sizeRow;
+    int nWords = 0;
     Tiles **boardTiles;
 };
 
