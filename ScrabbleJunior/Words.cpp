@@ -27,7 +27,7 @@ bool Words::ishorizontal() {
     if (orient == 'H'){
         return true;
     }
-    if (orient == 'V'){
+    else{
         return false;
     }
 }

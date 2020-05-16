@@ -12,6 +12,8 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <fstream>
+#include <vector>
+#include "Tiles.h"
 
 void Board::setFilename(){
     std::string directory = ".";
@@ -58,9 +60,9 @@ bool Board::setBoard() {
     inFile >> sizeRow >> name >> sizeCol;
     sizeRow =  sizeRow + 2;
     sizeCol =  sizeCol + 2;
-    boardTiles =  new Tiles*[sizeRow];  //Alocando dinamicamente espaço para o vetor
+    boardTiles =  new TilesG*[sizeRow];
     for (int i=0; i<sizeRow; i++){
-        boardTiles[i] = new Tiles[sizeCol];
+        boardTiles[i] = new TilesG[sizeCol];
     }
     for (int i =0; i<sizeRow; i++){ //Setando as tiles para o padrão vazio
         for (int j =0; j<sizeCol; j++) {
@@ -197,7 +199,7 @@ int Board::getSizeRow() {
     return sizeRow;
 }
 
-Tiles Board::getTiles(int x, int y) {
+TilesG Board::getTiles(int x, int y) {
     return boardTiles[y][x];
 }
 
@@ -213,4 +215,29 @@ bool Board::isChar(char Let){
     else{
         return true;
     }
+}
+
+int Board::toFill(int x, int y){
+    int point = 0;
+    int count;
+    boardTiles[y][x].nowCover();
+    if(!isChar(boardTiles[y+1][x].getChar()) && !boardTiles[y-1][x].getEmpty()){
+        point = point + 1;
+    }else if(!boardTiles[y-1][x].getEmpty() || !isChar(boardTiles[y-1][x].getChar())) {
+        count = 1;
+        while (!boardTiles[y + count][x].getEmpty()) {
+            count++;
+        }
+        boardTiles[y + count][x].nowValid();
+    }
+    if(!isChar(boardTiles[y][x+1].getChar()) && !boardTiles[y][x-1].getEmpty()){
+        point = point + 1;
+    }else if(!boardTiles[y][x-1].getEmpty() || !isChar(boardTiles[y][x-1].getChar())){
+        count = 1;
+        while(!boardTiles[y][x+ count].getEmpty()){
+            count++;
+        }
+        boardTiles[y][x+count].nowValid();
+        }
+    return point;
 }

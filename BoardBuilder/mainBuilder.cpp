@@ -5,7 +5,7 @@
 #define THANKSBOARD "Obrigado pelo tabuleiro"
 #define ENGANO "Algum erro ao criar a palavra"
 
-void mainBuilder(){ // Main do jogo
+int main(){ // Main do jogo
     BoardB board; // Cria o board
     board.setBoard(); // Determina o tamanho e nome dele
     int Answer = 1; // Enquanto variavel for 1, vai pondo novas palavras
@@ -30,6 +30,7 @@ void mainBuilder(){ // Main do jogo
         word.writeWord(board.getFilename()); // Escreve no arquivo
         board.saveWord(word); // salva na estrutura de dados
     }
+    return 0;
 }
 
 

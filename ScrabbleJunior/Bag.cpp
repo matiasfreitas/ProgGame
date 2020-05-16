@@ -14,7 +14,18 @@ void Bag::setBagTiles(Board board){
         }
     }
     bagTiles = bagTiles + bagTiles;
-    std::cout << bagTiles << std::endl;
     random_shuffle(bagTiles .begin(), bagTiles .end());
-    std::cout << bagTiles << std::endl;
+}
+
+std::string Bag::tradeTile(std::string tileReceive){
+    random_shuffle(bagTiles .begin(), bagTiles .end());
+    std::string tiletogive = std::string(1, bagTiles.back());
+    bagTiles.pop_back();
+    bagTiles = bagTiles + tileReceive;
+    random_shuffle(bagTiles .begin(), bagTiles .end());
+    return tiletogive;
+}
+
+int Bag::sizeBag(){
+    return bagTiles.length();
 }

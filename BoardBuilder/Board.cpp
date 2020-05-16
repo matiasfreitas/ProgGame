@@ -40,7 +40,7 @@ void BoardB::setBoard() { // Cria o tabuleiro e grava a primeira linha, com as c
     }
     std::ofstream file;
     file.open(nomeArq);
-    file << sizeRow-2 << " X " << sizeCol-2 <<  "\n"; // salvando o arquivo
+    file << sizeRow-2 << " x " << sizeCol-2 <<  "\n"; // salvando o arquivo
     file.close();
 }
 

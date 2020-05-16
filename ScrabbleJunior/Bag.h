@@ -11,6 +11,8 @@ class Bag {
         std::string bagTiles;
     public:
         void setBagTiles(Board board);
+        std::string tradeTile(std::string tileReceive = "");
+        int sizeBag();
 };
 
 

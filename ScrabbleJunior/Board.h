@@ -36,15 +36,16 @@ public:
     void setFilename();
     int getSizeCol();
     int getSizeRow();
-    Tiles getTiles(int x, int y);
+    TilesG getTiles(int x, int y);
     int getNwords();
     bool isChar(char Let);
+    int toFill(int x, int y);
 private:
     std::string nomeArq;
     int sizeCol;
     int sizeRow;
     int nWords = 0;
-    Tiles **boardTiles;
+    TilesG **boardTiles;
 };
 
 

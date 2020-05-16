@@ -5,13 +5,20 @@
 #ifndef PROGGAME_PLAYER_H
 #define PROGGAME_PLAYER_H
 #include <string>
+#include "Bag.h"
+#include "Board.h"
 
 class Player {
     private:
         int points;
         std::string hand;
     public:
-        printHand();
+        void printHand(int jogador);
+        bool playOrTrade(Bag bag, Board board);
+        void trade(Bag bag);
+        void play(Bag bag, Board board);
+        void setPlayer(Bag bag);
+
 };
 
 
