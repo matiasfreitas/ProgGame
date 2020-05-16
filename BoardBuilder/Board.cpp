@@ -75,6 +75,7 @@ void BoardB::print() { // Função pra printar o board com cores se estiver vazi
 
     setcolor(WHITE, BLACK_B);
 }
+
 Words BoardB::createWord(){ // Cria a word e verifica se os paramentros são possiveis
     std::string horizontalHousesB = " abcdefghijklmnopqrst";
     std::string verticalHousesB = " ABCDEFGHIJKLMNOPQRST";
@@ -163,16 +164,17 @@ bool BoardB::isValidaWord(Words word) {
     }
     return validLoc;
 }
+
 void BoardB::saveWord(Words word) { // salva a palavra no board
     std::string name = word.getName();
     if (word.ishorizontal()) {
         boardTiles[word.getY1()][word.getX1()].setTile(name[0], true, true); //seta a primeira de cada palavra como valida
-        for (int i = 0; i <= name.length(); i++) {
+        for (int i = 1; i <= name.length(); i++) {
             boardTiles[word.getY1()][word.getX1() + i].setTile(name[i], false, true); //seta o restante como invalida e vazia.
         }
     } else {
         boardTiles[word.getY1()][word.getX1()].setTile(name[0], true, true); //seta a primeira de cada palavra como valida
-        for (int i = 0; i <= name.length(); i++) {
+        for (int i = 1; i <= name.length(); i++) {
             boardTiles[word.getY1() + i][word.getX1()].setTile(name[i], false, true); //seta o restante como invalida e vazia.
         }
     }

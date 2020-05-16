@@ -17,7 +17,6 @@ void Dictionary::setDictVector(){
     }
 }
 
-
 bool Dictionary::isInDict(std::string word){
     std::transform(word.begin(), word.end(),word.begin(), ::tolower);
     bool isSameWord = false;
@@ -37,3 +36,4 @@ bool Dictionary::isInDict(std::string word){
     }
     return isSameWord;
 }
+
