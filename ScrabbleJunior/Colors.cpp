@@ -1,5 +1,5 @@
 //
-// Funções dadas pelo professor, arrumadas para windows e linux.
+// Created by matiasfg on 05/05/20.
 //
 
 #include "Colors.h"
@@ -26,7 +26,6 @@ void setcolor(std::string color, std::string background_color)
 
 #endif
 #ifdef _WIN32
-
 void setcolor(unsigned int color, unsigned int background_color)
 {
         HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -37,7 +36,6 @@ void setcolor(unsigned int color, unsigned int background_color)
         }
 }
 
-
 void gotoxy(int x, int y)
 {
         COORD coord;
@@ -45,7 +43,6 @@ void gotoxy(int x, int y)
         coord.Y = y;
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
-
 
 void clrscr()
 {
@@ -61,5 +58,4 @@ void clrscr()
         FillConsoleOutputAttribute(hCon, csbi.wAttributes, dwConSize, coordScreen, &cCharsWritten);
         SetConsoleCursorPosition(hCon, coordScreen);
 }
-
 #endif

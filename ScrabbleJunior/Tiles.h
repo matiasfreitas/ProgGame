@@ -6,9 +6,11 @@
 #define BOARDB_TILES_H
 
 
-class Tiles {
+class TilesG {
         public:
                 void setTile(char charT  = ' ', bool validT = false, bool emptiness = true);
+                void nowValid();
+                void nowCover();
                 bool getValid();
                 char getChar();
                 bool getEmpty();
