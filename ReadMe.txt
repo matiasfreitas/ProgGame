@@ -1,6 +1,7 @@
 Este Projeto foi desenvolvido por:
-Matias	up201900194
-Rafael	up201907729
+Matias
+Rafael
+Para a aula de PROG no MIEIC FEUP.
 
 Atingimos todos os objetivos propostos, usando classes/objetos mais relacionadas com as peças do tabuleiro (“Tiles”) do que com as palavras (“words”). O jogo deve funcionar corretamente nos sistemas operativos Windows e Linux.
 
