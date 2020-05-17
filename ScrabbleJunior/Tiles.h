@@ -16,9 +16,9 @@ class TilesG {
                 bool getEmpty();
 
         private:
-                char name;
-                bool valid;
-                bool empty;
+                char name = ' ';
+                bool valid = false;
+                bool empty = true;
 };
 
 

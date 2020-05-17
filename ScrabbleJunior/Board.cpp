@@ -259,7 +259,8 @@ int Board::toFill(int x, int y)
         boardTiles[y][x].nowCover();
 
         if(!isChar(boardTiles[y+1][x].getChar()) && !boardTiles[y-1][x].getEmpty()){
-                point = point + 1;
+                point ++;
+                nWords --;
         }else if(!boardTiles[y-1][x].getEmpty() || !isChar(boardTiles[y-1][x].getChar())) {
                 count = 1;
                 while (!boardTiles[y + count][x].getEmpty()) {
@@ -269,7 +270,8 @@ int Board::toFill(int x, int y)
         }
 
         if(!isChar(boardTiles[y][x+1].getChar()) && !boardTiles[y][x-1].getEmpty()){
-                point = point + 1;
+                point ++;
+                nWords --;
         }else if(!boardTiles[y][x-1].getEmpty() || !isChar(boardTiles[y][x-1].getChar())){
                 count = 1;
                 while(!boardTiles[y][x+ count].getEmpty()){

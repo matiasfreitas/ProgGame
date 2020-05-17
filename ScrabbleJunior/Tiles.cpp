@@ -5,8 +5,9 @@
 #include "Tiles.h"
 
 void TilesG::setTile(char charT, bool validT, bool emptiness)
-{
-        valid = validT;
+{       if(!valid){
+                valid = validT;
+        }
         name = charT;
         empty = emptiness;
 }

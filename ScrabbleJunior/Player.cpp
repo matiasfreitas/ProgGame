@@ -9,10 +9,16 @@
 #define SIZEHAND 7
 
 void Player::setPlayer(Bag bag)
-{
+{       hand = "";
+        points = 0;
         for (int i = 0; i < SIZEHAND;i++ ) {
                 hand = hand + bag.tradeTile();
         }
+}
+
+int Player::getPoints()
+{
+        return points;
 }
 
 void Player::printHand(int jogador)
@@ -21,14 +27,14 @@ void Player::printHand(int jogador)
         std::cout << hand << std::endl;
 };
 
-bool Player::playOrTrade(Bag bag, Board board)
+void Player::playOrTrade(Bag bag, Board board)
 {
         bool gameContinue = true;
-        int choice;
+        char choice;
         std::cout << "Quer jogar ou trocar? 1 para trocar, qualquer coisa para jogar" << std::endl;
         std::cin >> choice;
-
-        if(choice == 1){
+        std::cin.ignore();
+        if(choice == '1'){
                 trade(bag);
         }else{
                 int contador = 0;
@@ -40,14 +46,14 @@ bool Player::playOrTrade(Bag bag, Board board)
                         }else if(board.getNwords()>1){
                                 play(bag, board);
                         }else{
-                                gameContinue = false;
+                                break;
                         }
 
                         contador++;
 
                         if (contador ==1){
                                 std::cout << hand << std::endl;
-                                std::cout << "Segunda peça" << std::endl;
+                                std::cout << "Segunda peca" << std::endl;
                         }
                }
                while(contador>0){
@@ -55,8 +61,11 @@ bool Player::playOrTrade(Bag bag, Board board)
                    contador --;
                }
         }
-
-        return gameContinue;
+        std::cout << points << std::endl;
+        std::cout << "Esses sao seus pontos agora" << std::endl;
+        std::cout << "Digite qualquer coisa para continuar" << std::endl;
+        std::cin >> choice;
+        std::cin.ignore();
 };
 
 void Player::play(Bag bag, Board board)
@@ -77,11 +86,13 @@ void Player::play(Bag bag, Board board)
                 while(indexCol < 0 || board.getSizeCol() < indexCol){
                         std::cout << "Escolha a coluna pra por" << std::endl;
                         std::cin >> colName;
+                        std::cin.ignore();
                         indexCol = horizontalHouses.find(colName);
                 }
                 while(indexRow < 0  || board.getSizeRow() <  indexRow) {
                         std::cout << "Escolha a linha pra por" << std::endl;
                         std::cin >> rowName;
+                        std::cin.ignore();
                         indexRow = verticalHouses.find(rowName);
                 }
                 if(board.getTiles(indexCol, indexRow).getValid()) {
@@ -93,12 +104,13 @@ void Player::play(Bag bag, Board board)
                                 points = points + board.toFill(indexCol, indexRow);
                         }
                 } else{
-                        int choice;
+                        char choice;
                         std::cout << "Lugar invalido" << std::endl;
                         std::cout << "Tem certeza que consegue jogar nessa rodada? "
-                                     "1 para não, qualquer coisa para sim" << std::endl;
+                                     "1 para nao, qualquer coisa para sim" << std::endl;
                         std::cin >> choice;
-                        if(choice == 1){
+                        std::cin.ignore();
+                        if(choice == '1'){
                                 break;
                         }
                 }
@@ -121,6 +133,7 @@ void Player::trade(Bag bag)
                 while(indexTrade == -1){
                         std::cout << "Escolha qual trocar." << std::endl;
                         std::cin >> tileTrade;
+                        std::cin.ignore();
                         tileTrade = toupper(tileTrade);
                         indexTrade = hand.find(tileTrade);
                 }
