@@ -7,15 +7,14 @@
 #include <string>
 #include <vector>
 
-class Dictionary {
-    private:
-        std::vector<std::string> string_vec;
-        std::string filename = "C:/Users/matia/OneDrive/Imagens/Documentos/MatiasCameloScrabble/BoardBuilder/WORDS.TXT";
-    public:
-        void setDictVector();
-        void printDict();
-        bool isInDict(std::string word);
+class Dictionary{
+        private:
+                std::vector<std::string> string_vec;
+                std::string filename = "C:/Users/matia/OneDrive/Imagens/Documentos/MatiasCameloScrabble/BoardBuilder/WORDS.TXT";
+        public:
+                void setDictVector();
+                void printDict();
+                bool isInDict(std::string word);
 };
-
 
 #endif //MATIASCAMELOSCRABBLE_DICTIONARY_H

@@ -27,22 +27,22 @@
 
 class BoardB {
 
-    public:
-        void setBoard();
-        void print();
-        void putWord();
-        Words createWord();
-        bool isValidaWord(Words word);
-        void saveWord(Words word);
-        std::string getFilename();
-        bool isChar(char Let);
+        public:
+                void setBoard();
+                void print();
+                void putWord();
+                Words createWord();
+                bool isValidaWord(Words word);
+                void saveWord(Words word);
+                std::string getFilename();
+                bool isChar(char Let);
 
-    private:
-        std::string nomeArq;
-        int sizeCol;
-        int sizeRow;
-        Tiles **boardTiles;
-        Dictionary listWords;
+        private:
+                std::string nomeArq;
+                int sizeCol;
+                int sizeRow;
+                Tiles **boardTiles;
+                Dictionary listWords;
 };
 
 

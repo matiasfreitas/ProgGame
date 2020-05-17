@@ -4,20 +4,24 @@
 
 #include "Tiles.h"
 
-void Tiles::setTile(char charT, bool validT, bool emptiness) {
-    valid = validT;
-    name = charT;
-    empty = emptiness;
+void Tiles::setTile(char charT, bool validT, bool emptiness)
+{
+        valid = validT;
+        name = charT;
+        empty = emptiness;
 }
 
-bool Tiles::getValid() {
+bool Tiles::getValid()
+{
     return valid;
 }
 
-bool Tiles::getEmpty() {
+bool Tiles::getEmpty()
+{
     return empty;
 }
 
-char Tiles::getChar() {
+char Tiles::getChar()
+{
     return name;
 }

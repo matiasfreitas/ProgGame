@@ -27,25 +27,25 @@
 class Board {
 
 public:
-    bool setBoard();
-    void print();
-    Words createWord();
-    bool isValidaWord(Words word);
-    void saveWord(Words word);
-    std::string getFilename();
-    void setFilename();
-    int getSizeCol();
-    int getSizeRow();
-    TilesG getTiles(int x, int y);
-    int getNwords();
-    bool isChar(char Let);
-    int toFill(int x, int y);
+        bool setBoard();
+        void print();
+        Words createWord();
+        bool isValidaWord(Words word);
+        void saveWord(Words word);
+        std::string getFilename();
+        void setFilename();
+        int getSizeCol();
+        int getSizeRow();
+        TilesG getTiles(int x, int y);
+        int getNwords();
+        bool isChar(char Let);
+        int toFill(int x, int y);
 private:
-    std::string nomeArq;
-    int sizeCol;
-    int sizeRow;
-    int nWords = 0;
-    TilesG **boardTiles;
+        std::string nomeArq;
+        int sizeCol;
+        int sizeRow;
+        int nWords = 0;
+        TilesG **boardTiles;
 };
 
 

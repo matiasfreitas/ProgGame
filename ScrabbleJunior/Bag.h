@@ -7,12 +7,12 @@
 #include "Board.h"
 
 class Bag {
-    private:
-        std::string bagTiles;
-    public:
-        void setBagTiles(Board board);
-        std::string tradeTile(std::string tileReceive = "");
-        int sizeBag();
+        private:
+                std::string bagTiles;
+        public:
+                void setBagTiles(Board board);
+                std::string tradeTile(std::string tileReceive = "");
+                int sizeBag();
 };
 
 

@@ -8,18 +8,18 @@
 #include <string>
 
 class Words{
-public:
-    void setWord(std::string str, int xInitial, int yInitial, char orienta);
-    int getX1();
-    int getY1();
-    bool ishorizontal();
-    void writeWord(std::string nomeArquivo);
-    std::string getName();
+        public:
+                void setWord(std::string str, int xInitial, int yInitial, char orienta);
+                int getX1();
+                int getY1();
+                bool ishorizontal();
+                void writeWord(std::string nomeArquivo);
+                std::string getName();
 
-private:
-    int cordInitial[2];
-    std::string name;
-    char orient;
+        private:
+                int cordInitial[2];
+                std::string name;
+                char orient;
 };
 
 

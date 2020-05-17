@@ -7,16 +7,16 @@
 
 
 class Tiles {
-    public:
-        void setTile(char charT  = ' ', bool validT = false, bool emptiness = true);
-        bool getValid();
-        char getChar();
-        bool getEmpty();
+        public:
+                void setTile(char charT  = ' ', bool validT = false, bool emptiness = true);
+                bool getValid();
+                char getChar();
+                bool getEmpty();
 
-    private:
-        char name;
-        bool valid;
-        bool empty;
+        private:
+                char name;
+                bool valid;
+                bool empty;
 };
 
 
